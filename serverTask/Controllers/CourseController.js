@@ -1,7 +1,35 @@
 const Course = require('../Models/CourseModel');
+const User = require('../Models/userModel');
 
+  // create course  tutor
+  exports.createCourse = async (req, res) => {
+    const { title, duration, topics, price } = req.body;
+  
+    try {
 
-// get course (tutor, student)
+       const user = await User.findOne({ email: email });
+       if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+
+      const newCourse = new Course({
+        title,
+        duration,
+        topics,price
+        
+      });
+  
+      await newCourse.save();
+  
+      res.status(201).json({ message: 'course created successfully' });
+
+      
+    } catch (error) {
+      res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  };
+
+  // // get course (tutor, student)
 exports.getCourses = async (req, res) => {
   try {
     const courses = await Course.find()
@@ -11,26 +39,8 @@ exports.getCourses = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
-    
-   
 
-  // create course  tutor
-  exports.createCourse = async (req, res) => {
-    const { title, duration, topics, price } = req.body;
-  
-    try {
-
-        const course = new Course({ title, duration, topics, price  });
-        await course.save();
-        res.status(201).send("Course Added Succesfully");
-
-      
-    } catch (error) {
-      res.status(500).json({ message: 'Server error', error: error.message });
-    }
-  };
-
-// Update the course
+// // Update the course
 exports.updateCourse = async (req, res) => {
   const { id } = req.params;
   const { title, duration, topics, price } = req.body;
@@ -52,7 +62,7 @@ exports.updateCourse = async (req, res) => {
   }
 };
 
-// Delete an Course (tutor only)
+// // Delete an Course (tutor only)
 exports.deleteCourse = async (req, res) => {
   const { id } = req.params;
 
