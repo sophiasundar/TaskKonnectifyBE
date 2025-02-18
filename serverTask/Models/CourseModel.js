@@ -7,7 +7,7 @@ const courseSchema = new mongoose.Schema({
     required: true,
   },
   duration: {
-    type: Number,
+    type: String,
     required: true,
   },
   topics: [
@@ -18,6 +18,11 @@ const courseSchema = new mongoose.Schema({
 ],
   price: {
     type: Number,
+    required: true,
+  },
+  tutor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User", // Reference to the User model (tutor)
     required: true,
   },
   createdAt: {
